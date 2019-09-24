@@ -1,0 +1,16 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[scripts]
+generate = "python3 app.py"
+
+[dev-packages]
+
+[packages]
+html2text = "*"
+requests = "*"
+
+[requires]
+python_version = "3.7"
