@@ -11,6 +11,8 @@ generate = "python3 app.py"
 [packages]
 html2text = "*"
 requests = "*"
+connexion = {extras = ["swagger-ui"],version = "*"}
+aiohttp-jinja2 = "*"
 
 [requires]
 python_version = "3.7"

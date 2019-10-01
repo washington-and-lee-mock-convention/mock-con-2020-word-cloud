@@ -1,0 +1,38 @@
+swagger: '2.0'
+info:
+  title: Mock Convention 2020 Word Cloud Generator
+  description: A REST api to retrieve stats from a database of words
+  version: v1
+basePath: /v1
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /stats:
+    get:
+      description: ''
+      parameters:
+        - name: stat
+          in: query
+          description: 'Stat to be returned'
+          required: true
+          type: string
+          default: most_used_word
+          enum: [most_used_word]
+      responses:
+        '404':
+          $ref: '#/responses/NotFound'
+responses:
+  NotFound:
+    description: The specified resource was not found
+    schema:
+      $ref: '#/definitions/Error'
+definitions:
+  Error:
+    type: object
+    properties:
+      message:
+        type: string
+    required:
+      - message
