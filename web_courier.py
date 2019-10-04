@@ -11,6 +11,8 @@ class WebCourier:
     The courier will then make the async database transaction with the correct model
     '''
 
+    baseURL = 'https://google.com/search?q='
+
     def __init__(self, loop, url, cloud_generator):
         self.url = url
         self.loop = loop

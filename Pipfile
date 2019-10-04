@@ -16,6 +16,7 @@ aiohttp-jinja2 = "*"
 aiohttp = "*"
 asyncio = "*"
 flake8 = "*"
+gino = "*"
 
 [requires]
 python_version = "3.7"
