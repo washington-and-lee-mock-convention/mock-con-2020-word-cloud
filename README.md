@@ -2,7 +2,9 @@
 Takes in HTML articles and archives word usage and time information
 
 ## Dev Setup ##
-Before beginning, make sure postgresql is install and create a new database wordcloud with user wordcloud.
+Make sure that Docker desktop is installed and running before setup.
 
-`pipenv install`
-`pipenv run generate`
+1. pip install pipenv
+2. pipenv install
+3. docker-compose up (to start database)
+4. pipenv run generate
