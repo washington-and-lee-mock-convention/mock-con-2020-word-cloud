@@ -1,0 +1,13 @@
+version: '3'
+services:
+  word-cloud-db:
+    image: registry.access.redhat.com/rhscl/postgresql-96-rhel7
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_DATABASE=wordcloud
+      - POSTGRESQL_USER=wordcloud
+      - POSTGRESQL_PASSWORD=wordcloud
+    command: sh -c "mkdir -p /opt/app-root/src/postgresql-start &&
+                    echo 'psql -c \"ALTER USER wordcloud CREATEDB;\"' >> /opt/app-root/src/postgresql-start/make_test_work.sh &&
+                    run-postgresql"
