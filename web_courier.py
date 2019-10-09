@@ -2,9 +2,10 @@ import requests
 import asyncio
 import aiohttp
 import logging
-from datetime import date
+from datetime import datetime
+from dateutil import parser
 from concurrent.futures import ALL_COMPLETED
-from model import db
+from model import db, WordCloud
 
 logging.basicConfig(level=logging.INFO)
 
@@ -40,11 +41,24 @@ class WebCourier:
         for task in done:
             data = task.result()
             for article in data['articles']:
-                content = article['content']
+                content = article['description']
+                date_published = parser.parse(article['publishedAt']).replace(tzinfo=None)
                 words_to_frequency = self.cloud_generator(content)
-                print(words_to_frequency)
 
-            # async with db.transcation():
+                for word in words_to_frequency.keys():
+                    sanitized_word = {
+                        'word': word,
+                        'date_published': date_published,
+                        'date_recorded': datetime.utcnow()
+                    }
+
+                async with db.transaction():
+                    word_to_create = WordCloud(**sanitized_word)
+                    created_word = await word_to_create.create()
+                    dump = created_word.dump()
+                    logging.info(f"DB Transaction {created_word} - {dump}")
+                    dump['date_published'] = str(dump['date_published'])
+                    dump['date_recorded'] = str(dump['date_recorded'])
 
 
     def __del__(self):

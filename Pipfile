@@ -9,7 +9,6 @@ generate = "python3 app.py"
 [dev-packages]
 
 [packages]
-html2text = "*"
 requests = "*"
 connexion = {extras = ["swagger-ui"],version = "*"}
 aiohttp-jinja2 = "*"
@@ -17,7 +16,8 @@ aiohttp = "*"
 asyncio = "*"
 flake8 = "*"
 gino = "*"
-urllib3 = "*"
+alembic = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.7"
