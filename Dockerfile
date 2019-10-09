@@ -10,4 +10,5 @@ RUN pipenv install --system
 EXPOSE 8000
 EXPOSE 8080
 USER 1001
+CMD ['alembic', 'upgrade', 'head']
 CMD ["python", "./app.py"]
