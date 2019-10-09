@@ -32,6 +32,7 @@ def getBuzzwords(url):
 def getHTML(url):
     http = urllib3.PoolManager()
     r = http.request('GET', url)
+    print(r.data)
     return r.data
 
 def getText(html):
