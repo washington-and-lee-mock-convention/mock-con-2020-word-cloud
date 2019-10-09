@@ -39,28 +39,36 @@ def getText(html):
     return html2text.html2text(html)
 
 def frequency(text):
-    dictionary = []
-    misc = ['had', 'has', 'was']
+    dictionary = {}
+    misc = ['had', 'has', 'was', 'is', 'are', 'have']
     articles = ['the', 'a', 'an', 'that', 'this', 'these', 'those']
     prepositions = ['of', 'with', 'at', 'from', 'into', 'during', 'including', 'until', 'against', 'among',
         'throughout', 'despite', 'torwards', 'upon', 'concerning', 'to', 'in', 'for', 'on', 'by', 'about',
         'like', 'through', 'over', 'before', 'between', 'after', 'since', 'without', 'under', 'within', 'along',
         'following', 'across', 'behind', 'beyond', 'plus', 'except', 'but', 'up', 'out', 'around', 'down', 'off',
         'above', 'near']
-    for element in text:
-        if((element not in prepositions) and (element not in articles) and (element not in misc)):
-            dictionary.append((
-                element,
-                text.count(element)
-            ))
+    conjunctions = ['for', 'and', 'so', 'but', 'not', 'yet', 'nor', 'or']
+    pronouns = [
+        'i', 'me', 'we', 'us', 'our', 'you', 'your', 'he', 'his', 'him',
+        'she', 'her', 'it', 'they', 'their'
+    ]
+
+    forbidden_words = []
+    for wset in [misc, articles, prepositions, conjunctions, pronouns]:
+        forbidden_words.extend(wset)
+
+    for word in text:
+        if((word.lower() not in forbidden_words) and (word.isalnum())):
+            if word in dictionary:
+                dictionary[word] += 1
+            else:
+                dictionary[word] = 1
     return dictionary
 
 def keyWords(dictionary, threshold):
     ndict = []
     for item in dictionary:
-        #item[0] corresponds to the word
-        #item[1] corresponds to the frequency
-        if item[1] >= 4:
+        if dictionary[item] >= 4:
             ndict.append(item)
     return ndict
 
