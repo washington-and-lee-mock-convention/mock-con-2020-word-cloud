@@ -3,21 +3,21 @@ import asyncio
 import connexion
 import logging
 from connexion.resolver import RestyResolver
-from web_courier import WebCourier
+from newsapi_courier import NewsAPICourier
 from cloud_generator import WordCloudGenerator
 from model import init_db, db
-from utils import define_forbidden_words, create_google_api_url
+from utils import define_forbidden_words, create_newsapi_url
 
 API_PORT = os.environ.get('API_PORT', 8080)
 FORBIDDEN_WORDS = os.environ.get('FORBIDDEN_WORDS', define_forbidden_words())
-API_KEY = os.environ.get('API_KEY', '7250f963ffc04ab0bf82535a74c91358')
+NEWSAPI_KEY = os.environ.get('NEWSAPI_KEY', '7250f963ffc04ab0bf82535a74c91358')
 THRESHOLD = os.environ.get('THRESHOLD', 0)
 
 logging.basicConfig(level=logging.INFO)
 
 loop = asyncio.get_event_loop()
 
-query_web = WebCourier(loop, WordCloudGenerator(FORBIDDEN_WORDS, THRESHOLD))
+query_newsapi = NewsAPICourier(loop, WordCloudGenerator(FORBIDDEN_WORDS, THRESHOLD))
 
 
 async def setup_recurring_web_scrape():
@@ -31,7 +31,7 @@ async def setup_recurring_web_scrape():
         logging.info('Querying Google Search API...')
         # Will need to incorporate a service to create word combinations
         placeholder = ['Trump']
-        await query_web(create_google_api_url(placeholder, API_KEY))
+        await query_newsapi(create_newsapi_url(placeholder, NEWSAPI_KEY))
         await asyncio.sleep(3600, loop=loop)
 
 

@@ -1,8 +1,8 @@
-"""create wordcloud table
+"""create news archive table
 
-Revision ID: 2abfa7ba6e6b
-Revises: 
-Create Date: 2019-10-08 22:29:54.323823
+Revision ID: 31efdc32af26
+Revises: 2abfa7ba6e6b
+Create Date: 2019-10-10 17:14:33.070419
 
 """
 from alembic import op
@@ -10,16 +10,17 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '2abfa7ba6e6b'
-down_revision = None
+revision = '31efdc32af26'
+down_revision = '2abfa7ba6e6b'
 branch_labels = None
 depends_on = None
 
 
 def upgrade():
-    op.create_table('wordcloud',
+    op.create_table('newsarchive',
                     sa.Column('id', sa.Integer, nullable=False, autoincrement=True),
-                    sa.Column('word', sa.Unicode, nullable=False),
+                    sa.Column('description', sa.Unicode, nullable=False),
+                    sa.Column('url', sa.Unicode, nullable=False),
                     sa.Column('date_published', sa.DateTime(), nullable=False),
                     sa.Column('date_recorded', sa.DateTime(),
                                     server_default=sa.text('now()'), nullable=True),
@@ -28,4 +29,5 @@ def upgrade():
 
 
 def downgrade():
-    op.drop_table('wordcloud')
+    op.drop_table('newsarchive')
+    

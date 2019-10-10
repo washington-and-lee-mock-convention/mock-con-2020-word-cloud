@@ -9,7 +9,7 @@ from model import db, WordCloud
 
 logging.basicConfig(level=logging.INFO)
 
-class WebCourier:
+class NewsAPICourier:
     '''
     This class will open a requests session and make a request to the given url.
     The resultant json will be scrubbed for body text and the text will be fed through

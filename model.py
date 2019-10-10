@@ -31,3 +31,16 @@ class WordCloud(db.Model):
 
     def dump(self):
         return {k: v for k, v in self.__values__.items() if v is not None}
+
+
+class NewsArchive(db.Model):
+    __tablename__ = 'newsarchive'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    description = db.Column(db.Unicode)
+    url = db.Column(db.Unicode)
+    date_published = db.Column(db.DateTime(timezone=True), server_default="timezone('utc'::text, now())")
+    date_recorded = db.Column(db.DateTime(timezone=True), server_default="timezone('utc'::text, now())")
+
+    def dump(self):
+        return {k: v for k, v in self.__values__.items() if v is not None}

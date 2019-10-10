@@ -25,7 +25,7 @@ def define_forbidden_words():
     return forbidden_words
 
 
-def create_google_api_url(words, key):
+def create_newsapi_url(words, key):
     url = f'https://newsapi.org/v2/everything?q={"+".join(words)}&from={str(date.today())}sortBy=popularity&apiKey={str(key)}'
-    logging.info(f'Querying Google with: {url}')
+    logging.info(f'Querying NewsAPI with: {url}')
     return url
