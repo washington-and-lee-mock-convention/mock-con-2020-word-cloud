@@ -21,6 +21,10 @@ paths:
           default: most_used_word
           enum: [most_used_word]
       responses:
+        '200':
+          description: 'successfully returned requested stats'
+          schema:
+            $ref: '#/definitions/WordRetrieve'
         '404':
           $ref: '#/responses/NotFound'
 responses:
@@ -36,3 +40,24 @@ definitions:
         type: string
     required:
       - message
+  WordRetrieve:
+    required:
+      - word
+    type: object
+    properties:
+      id:
+        title: Id
+        type: string
+      word:
+        title: Word
+        type: string
+      date_published:
+        title: DatePublished
+        type: string
+        format: date-time
+        readOnly: true
+      date_recorded:
+        title: DateRecorded
+        type: string
+        format: date-time
+        readOnly: true

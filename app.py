@@ -32,7 +32,7 @@ async def setup_recurring_web_scrape():
         # Will need to incorporate a service to create word combinations
         placeholder = ['Trump']
         await query_web(create_google_api_url(placeholder, API_KEY))
-        await asyncio.sleep(60, loop=loop)
+        await asyncio.sleep(3600, loop=loop)
 
 
 def setup_app():
