@@ -31,7 +31,6 @@ def _get_most_used_word(params):
     def _get_frequency_dict(words):
         dictionary = {}
         for word in words:
-            print(word)
             if word in dictionary.keys():
                 dictionary[word] += 1
             else:
