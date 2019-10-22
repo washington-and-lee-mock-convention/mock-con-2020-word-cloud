@@ -18,6 +18,8 @@ flake8 = "*"
 gino = "*"
 alembic = "*"
 psycopg2 = "*"
+bs4 = "*"
+lxml = "*"
 
 [requires]
 python_version = "3.7"

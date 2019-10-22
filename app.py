@@ -5,8 +5,9 @@ import logging
 from connexion.resolver import RestyResolver
 from newsapi_courier import NewsAPICourier
 from cloud_generator import WordCloudGenerator
+from googlenews_courier import GoogleNewsCourier
 from model import init_db, db
-from utils import define_forbidden_words, create_newsapi_url
+from utils import define_forbidden_words, create_newsapi_url, create_google_news_url
 
 API_PORT = os.environ.get('API_PORT', 8080)
 FORBIDDEN_WORDS = os.environ.get('FORBIDDEN_WORDS', define_forbidden_words())
@@ -18,20 +19,23 @@ logging.basicConfig(level=logging.INFO)
 loop = asyncio.get_event_loop()
 
 query_newsapi = NewsAPICourier(loop, WordCloudGenerator(FORBIDDEN_WORDS, THRESHOLD))
+query_google = GoogleNewsCourier(loop)
 
 
-async def setup_recurring_web_scrape():
-    '''
-        This should be set to run each hour and iterate over each of the given key words.
-        Need to consider what key word pairs are going to be important and how we can generate
-        key words based on findings. We don't want to necessarily feed our model with the most
-        used words from already scanned documents because this will cause bias in the output.
-    '''
+async def setup_recurring_newsapi_scrape():
     while True:
-        logging.info('Querying Google Search API...')
+        logging.info('Querying News API...')
         # Will need to incorporate a service to create word combinations
         placeholder = ['Trump']
         await query_newsapi(create_newsapi_url(placeholder, NEWSAPI_KEY))
+        await asyncio.sleep(3600, loop=loop)
+
+
+async def setup_recurring_gnews_scrape():
+    while True:
+        logging.info('Querying Google News API...')
+        placeholder = ['Trump']
+        await query_google(create_google_news_url(placeholder))
         await asyncio.sleep(3600, loop=loop)
 
 
@@ -59,7 +63,10 @@ if __name__ == '__main__':
     logging.info('Initializing Database...')
     loop.create_task(init_db())
 
-    logging.info('Starting Webscraping Task...')
-    loop.create_task(setup_recurring_web_scrape())
+    logging.info('Starting NewsAPI Webscraping Task...')
+    loop.create_task(setup_recurring_newsapi_scrape())
+
+    logging.info('Starting Google News Webscraping Task...')
+    loop.create_task(setup_recurring_gnews_scrape())
 
     app.run(port=API_PORT)

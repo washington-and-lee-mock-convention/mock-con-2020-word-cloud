@@ -26,7 +26,7 @@ class NewsAPICourier:
     async def _fetch(self, url):
         async with self.session.get(url) as resp:
             status = resp.status
-            logging.info(f"Received status {status} from Google API.")
+            logging.info(f"Received status {status} from NewsAPI.")
             assert status == 200
             return await resp.json()
 
