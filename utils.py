@@ -29,3 +29,9 @@ def create_newsapi_url(words, key):
     url = f'https://newsapi.org/v2/everything?q={"+".join(words)}&from={str(date.today())}sortBy=popularity&apiKey={str(key)}'
     logging.info(f'Querying NewsAPI with: {url}')
     return url
+
+
+def create_google_news_url(words):
+    url = f'https://news.google.com/rss/search?q={"+".join(words)}'
+    logging.info(f'Querying Google News with: {url}')
+    return url
