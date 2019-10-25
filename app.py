@@ -34,6 +34,7 @@ async def setup_recurring_newsapi_scrape():
 async def setup_recurring_gnews_scrape():
     while True:
         logging.info('Querying Google News API...')
+        # Will need to incorporate a service to create word combinations
         placeholder = ['Trump']
         await query_google(create_google_news_url(placeholder))
         await asyncio.sleep(3600, loop=loop)

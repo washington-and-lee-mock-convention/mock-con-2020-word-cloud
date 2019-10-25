@@ -26,7 +26,7 @@ class GoogleNewsCourier:
         desc_list = description.split()
         for item in desc_list:
             if 'href' in item:
-                return item[6:len(item) - 1] #remove href=''
+                return item[6:len(item) - 1] # remove href=''
         return None
 
 
