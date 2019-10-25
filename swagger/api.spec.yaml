@@ -29,7 +29,18 @@ paths:
           $ref: '#/responses/NotFound'
   /articles:
     get:
+      description: ''
+      parameters:
+        - name: 'keyword'
+          in: query
+          description: 'Word in Query'
+          required: false
+          type: string
       responses:
+        '200':
+          description: 'successfully returned articles'
+          schema:
+            $ref: '#/definitions/ArticleRetrieve'
         '404':
           $ref: '#/responses/NotFound'
 responses:
@@ -55,6 +66,31 @@ definitions:
         type: string
       word:
         title: Word
+        type: string
+      date_published:
+        title: DatePublished
+        type: string
+        format: date-time
+        readOnly: true
+      date_recorded:
+        title: DateRecorded
+        type: string
+        format: date-time
+        readOnly: true
+  ArticleRetrieve:
+    required:
+      - description
+      - url
+    type: object
+    properties:
+      id:
+        title: Id
+        type: string
+      description:
+        title: Description
+        type: string
+      url:
+        title: url
         type: string
       date_published:
         title: DatePublished
