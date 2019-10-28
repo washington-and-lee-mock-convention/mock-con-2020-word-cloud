@@ -26,6 +26,7 @@ class WordCloud(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     word = db.Column(db.Unicode)
+    source = db.Column(db.Unicode)
     date_published = db.Column(db.DateTime(timezone=True), server_default="timezone('utc'::text, now())")
     date_recorded = db.Column(db.DateTime(timezone=True), server_default="timezone('utc'::text, now())")
 
