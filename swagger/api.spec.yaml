@@ -19,7 +19,7 @@ paths:
           required: true
           type: string
           default: most_used_word
-          enum: [most_used_word]
+          enum: [most_used_word, word_frequency]
       responses:
         '200':
           description: 'successfully returned requested stats'

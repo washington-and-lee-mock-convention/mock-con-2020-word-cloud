@@ -42,12 +42,14 @@ class NewsAPICourier:
             data = task.result()
             for article in data['articles']:
                 content = article['description']
+                source = article['url']
                 date_published = parser.parse(article['publishedAt']).replace(tzinfo=None)
                 words_to_frequency = self.cloud_generator(content)
 
                 for word in words_to_frequency.keys():
                     sanitized_word = {
                         'word': word,
+                        'source': source,
                         'date_published': date_published,
                         'date_recorded': datetime.utcnow()
                     }

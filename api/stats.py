@@ -2,6 +2,7 @@ import json
 import responses
 import logging
 import operator
+from sqlalchemy import func
 from model import db, WordCloud
 
 logging.basicConfig(level=logging.INFO)
@@ -11,7 +12,10 @@ async def search(*args, **kwargs):
 
     logging.info(f'Recieved {kwargs}')
 
-    stat_funcs = {'most_used_word': _get_most_used_word}
+    stat_funcs = {
+        'most_used_word': _get_most_used_word,
+        'word_frequency': _get_word_frequency,
+    }
     func = stat_funcs[kwargs['stat']]
     params = {}
 
@@ -23,10 +27,11 @@ async def search(*args, **kwargs):
     if words is None:
         return responses.not_found()
     else:
-        return responses.get(func(params))
+        response = await func(params)
+        return responses.get(response)
 
 
-def _get_most_used_word(params):
+async def _get_most_used_word(params):
 
     def _get_frequency_dict(words):
         dictionary = {}
@@ -43,3 +48,17 @@ def _get_most_used_word(params):
     
     most_frequent = max(freq_dict.items(), key=operator.itemgetter(1))[0]
     return {'most_used_word': most_frequent}
+
+
+async def _get_word_frequency(params):
+
+    words_to_freq = await db.select(
+        [
+            WordCloud.word,
+            db.func.count(db.func.distinct(WordCloud.source))
+        ]
+    ).group_by(
+        WordCloud.word
+    ).gino.all()
+
+    return [{k: v for k, v in words_to_freq if v is not None}]
