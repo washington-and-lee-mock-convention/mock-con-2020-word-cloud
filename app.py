@@ -6,37 +6,38 @@ from connexion.resolver import RestyResolver
 from newsapi_courier import NewsAPICourier
 from cloud_generator import WordCloudGenerator
 from googlenews_courier import GoogleNewsCourier
+from word_pair_generator import Generator
 from model import init_db, db
-from utils import define_forbidden_words, create_newsapi_url, create_google_news_url
+from utils import define_forbidden_words, create_newsapi_url, create_google_news_url, word_seed
 
 API_PORT = os.environ.get('API_PORT', 8080)
 FORBIDDEN_WORDS = os.environ.get('FORBIDDEN_WORDS', define_forbidden_words())
 NEWSAPI_KEY = os.environ.get('NEWSAPI_KEY', '7250f963ffc04ab0bf82535a74c91358')
 THRESHOLD = os.environ.get('THRESHOLD', 0)
+MAX_QUERY_SIZE = os.environ.get('MAX_QUERY_SIZE', 3)
 
 logging.basicConfig(level=logging.INFO)
 
 loop = asyncio.get_event_loop()
 
-query_newsapi = NewsAPICourier(loop, WordCloudGenerator(FORBIDDEN_WORDS, THRESHOLD))
+generator = Generator(word_seed(), MAX_QUERY_SIZE)
+query_newsapi = NewsAPICourier(loop, WordCloudGenerator(FORBIDDEN_WORDS, THRESHOLD), generator)
 query_google = GoogleNewsCourier(loop)
 
 
 async def setup_recurring_newsapi_scrape():
     while True:
         logging.info('Querying News API...')
-        # Will need to incorporate a service to create word combinations
-        placeholder = ['Trump']
-        await query_newsapi(create_newsapi_url(placeholder, NEWSAPI_KEY))
+        for query in generator():
+            await query_newsapi(create_newsapi_url(query, NEWSAPI_KEY))
         await asyncio.sleep(3600, loop=loop)
 
 
 async def setup_recurring_gnews_scrape():
     while True:
         logging.info('Querying Google News API...')
-        # Will need to incorporate a service to create word combinations
-        placeholder = ['Trump']
-        await query_google(create_google_news_url(placeholder))
+        for query in generator():
+            await query_google(create_google_news_url(query))
         await asyncio.sleep(3600, loop=loop)
 
 

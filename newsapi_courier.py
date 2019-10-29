@@ -17,10 +17,11 @@ class NewsAPICourier:
     The courier will then make the async database transaction with the correct model
     '''
 
-    def __init__(self, loop, cloud_generator):
+    def __init__(self, loop, cloud_generator, pair_generator):
         self.loop = loop
         self.session = aiohttp.ClientSession()
         self.cloud_generator = cloud_generator
+        self.pair_generator = pair_generator
 
 
     async def _fetch(self, url):
@@ -44,7 +45,7 @@ class NewsAPICourier:
                 content = article['description']
                 source = article['url']
                 date_published = parser.parse(article['publishedAt']).replace(tzinfo=None)
-                words_to_frequency = self.cloud_generator(content)
+                words_to_frequency = self.cloud_generator(content) if content else {}
 
                 for word in words_to_frequency.keys():
                     sanitized_word = {
@@ -53,6 +54,8 @@ class NewsAPICourier:
                         'date_published': date_published,
                         'date_recorded': datetime.utcnow()
                     }
+
+                self.pair_generator.add_words(words_to_frequency.keys())
 
                 async with db.transaction():
                     word_to_create = WordCloud(**sanitized_word)

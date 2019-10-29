@@ -25,6 +25,13 @@ def define_forbidden_words():
     return forbidden_words
 
 
+def word_seed():
+    return [
+        'biden', 'warren', 'sanders', 'DNC', 'harris', 'iowa', 'nevada', 'new+hampshire', 'south+carolina',
+        'delegates', 'campaign+infrastructure', 'paid+staff', 'volunteers', 'path+to+victory'
+    ]
+
+
 def create_newsapi_url(words, key):
     url = f'https://newsapi.org/v2/everything?q={"+".join(words)}&from={str(date.today())}sortBy=popularity&apiKey={str(key)}'
     logging.info(f'Querying NewsAPI with: {url}')
