@@ -31,9 +31,21 @@ paths:
     get:
       description: ''
       parameters:
-        - name: 'keyword'
+        - name: page
           in: query
-          description: 'Word in Query'
+          description: A page number within the paginated result set.
+          required: false
+          type: integer
+          default: 0
+        - name: page_size
+          in: query
+          description: Size of the page
+          required: false
+          type: integer
+          default: 10
+        - name: search
+          in: query
+          description: 'Search string'
           required: false
           type: string
       responses:

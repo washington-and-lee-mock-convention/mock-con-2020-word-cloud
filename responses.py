@@ -23,6 +23,10 @@ def get(entity):
     return _response(data=entity, status=HTTPStatus.OK)
 
 
+def search(count, entities):
+    return _response(data={'count': count, 'data': entities}, status=HTTPStatus.OK)
+
+
 def not_found(message=None):
     if message is None:
         message = 'Resource not found.'

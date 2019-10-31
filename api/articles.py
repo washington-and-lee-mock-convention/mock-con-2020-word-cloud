@@ -7,19 +7,26 @@ async def search(*args, **kwargs):
 
     articles = []
     articles_dump = None
-    keyword = None
+    search = None
 
-    if 'keyword' in kwargs:
-        keyword = str(kwargs['keyword'])
+    if 'search' in kwargs:
+        search = str(kwargs['search'])
     
     async with db.bind.acquire() as conn:
 
         query = NewsArchive.query
 
-        if keyword:
-            query.append_whereclause(
-                NewsArchive.description.contains(keyword)
-            )
+        if search:
+            words = search.split(' ')
+            for word in words:
+                query.append_whereclause(
+                    NewsArchive.description.contains(word)
+                )
+
+        articles_count = await conn.scalar(query.alias().count())
+
+        query = query.limit(kwargs['page_size']).offset(
+                kwargs['page'] * kwargs['page_size'])
 
         articles = await conn.all(query)
 
@@ -27,4 +34,4 @@ async def search(*args, **kwargs):
         return responses.not_found()
     else:
         article_dump = [article.dump() for article in articles]
-        return responses.get(article_dump)
+        return responses.search(articles_count, article_dump)
