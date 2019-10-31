@@ -66,9 +66,9 @@ if __name__ == '__main__':
     loop.create_task(init_db())
 
     logging.info('Starting NewsAPI Webscraping Task...')
-    loop.create_task(setup_recurring_newsapi_scrape())
+    # loop.create_task(setup_recurring_newsapi_scrape())
 
     logging.info('Starting Google News Webscraping Task...')
-    loop.create_task(setup_recurring_gnews_scrape())
+    # loop.create_task(setup_recurring_gnews_scrape())
 
     app.run(port=API_PORT)
