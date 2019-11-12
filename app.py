@@ -10,7 +10,7 @@ from word_pair_generator import Generator
 from model import init_db, db
 from utils import define_forbidden_words, create_newsapi_url, create_google_news_url, word_seed
 
-API_PORT = os.environ.get('API_PORT', 8080)
+API_PORT = os.environ.get('PORT', 8080)
 FORBIDDEN_WORDS = os.environ.get('FORBIDDEN_WORDS', define_forbidden_words())
 NEWSAPI_KEY = os.environ.get('NEWSAPI_KEY', '7250f963ffc04ab0bf82535a74c91358')
 THRESHOLD = os.environ.get('THRESHOLD', 0)
@@ -27,16 +27,18 @@ query_google = GoogleNewsCourier(loop)
 
 async def setup_recurring_newsapi_scrape():
     while True:
-        logging.info('Querying News API...')
-        for query in generator():
+        queries = generator()
+        logging.info(f'Querying News API with queries: {queries}')
+        for query in queries:
             await query_newsapi(create_newsapi_url(query, NEWSAPI_KEY))
         await asyncio.sleep(3600, loop=loop)
 
 
 async def setup_recurring_gnews_scrape():
     while True:
-        logging.info('Querying Google News API...')
-        for query in generator():
+        queries = generator()
+        logging.info(f'Querying Google News API with queries: {queries}')
+        for query in queries:
             await query_google(create_google_news_url(query))
         await asyncio.sleep(3600, loop=loop)
 
@@ -63,7 +65,7 @@ if __name__ == '__main__':
     app = setup_app()
 
     logging.info('Initializing Database...')
-    loop.create_task(init_db())
+    loop.create_task(setup_db())
 
     logging.info('Starting NewsAPI Webscraping Task...')
     loop.create_task(setup_recurring_newsapi_scrape())
