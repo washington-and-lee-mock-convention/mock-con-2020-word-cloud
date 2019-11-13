@@ -23,6 +23,10 @@ paths:
       responses:
         '200':
           description: 'successfully returned requested stats'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+              default: "*"
           schema:
             $ref: '#/definitions/WordRetrieve'
         '404':
@@ -51,6 +55,10 @@ paths:
       responses:
         '200':
           description: 'successfully returned articles'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+              default: "*"
           schema:
             $ref: '#/definitions/ArticleRetrieve'
         '404':
