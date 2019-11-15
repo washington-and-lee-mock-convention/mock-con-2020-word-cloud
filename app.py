@@ -8,7 +8,6 @@ from newsapi_courier import NewsAPICourier
 from cloud_generator import WordCloudGenerator
 from googlenews_courier import GoogleNewsCourier
 from word_pair_generator import Generator
-from model import init_db, db
 from utils import (
     create_newsapi_url, create_google_news_url,
     word_seed, setup_db
