@@ -31,7 +31,7 @@ async def setup_recurring_newsapi_scrape():
         logging.info(f'Querying News API with queries: {queries}')
         for query in queries:
             await query_newsapi(create_newsapi_url(query, NEWSAPI_KEY))
-        await asyncio.sleep(3600, loop=loop)
+        await asyncio.sleep(6400, loop=loop)
 
 
 async def setup_recurring_gnews_scrape():
