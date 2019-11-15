@@ -58,7 +58,7 @@ class Generator:
         query_set = list(query_set)
         # Reduce number of requests using random selection
         while i < self.num_queries:
-            query = query_set[random.randint(0, len(query_set))] + (self._get_rand_salt(),)
+            query = query_set[random.randint(0, len(query_set) - 1)] + (self._get_rand_salt(),)
             subset.append(query)
             i += 1
         
