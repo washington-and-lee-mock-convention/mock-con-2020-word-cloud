@@ -25,8 +25,13 @@ async def search(*args, **kwargs):
 
         articles_count = await conn.scalar(query.alias().count())
 
-        query = query.limit(kwargs['page_size']).offset(
-                kwargs['page'] * kwargs['page_size'])
+        query = query.limit(
+                    kwargs['page_size']
+                ).offset(
+                    kwargs['page'] * kwargs['page_size']
+                ).order_by(
+                    NewsArchive.date_published.desc()
+                )
 
         articles = await conn.all(query)
 
