@@ -20,6 +20,7 @@ alembic = "*"
 psycopg2-binary = "*"
 bs4 = "*"
 lxml = "*"
+nltk = "*"
 
 [requires]
 python_version = "3.7"

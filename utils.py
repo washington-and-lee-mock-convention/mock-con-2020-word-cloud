@@ -13,27 +13,6 @@ async def setup_db():
     return app
 
 
-def define_forbidden_words():
-    dictionary = {}
-    misc = ['had', 'has', 'was', 'is', 'are', 'have']
-    articles = ['the', 'a', 'an', 'that', 'this', 'these', 'those']
-    prepositions = ['of', 'with', 'at', 'from', 'into', 'during', 'including', 'until', 'against', 'among',
-        'throughout', 'despite', 'torwards', 'upon', 'concerning', 'to', 'in', 'for', 'on', 'by', 'about',
-        'like', 'through', 'over', 'before', 'between', 'after', 'since', 'without', 'under', 'within', 'along',
-        'following', 'across', 'behind', 'beyond', 'plus', 'except', 'but', 'up', 'out', 'around', 'down', 'off',
-        'above', 'near']
-    conjunctions = ['for', 'and', 'so', 'but', 'not', 'yet', 'nor', 'or']
-    pronouns = [
-        'i', 'me', 'we', 'us', 'our', 'you', 'your', 'he', 'his', 'him',
-        'she', 'her', 'it', 'they', 'their'
-    ]
-
-    forbidden_words = []
-    for wset in [misc, articles, prepositions, conjunctions, pronouns]:
-        forbidden_words.extend(wset)
-    return forbidden_words
-
-
 def word_seed():
     return [
         'biden', 'warren', 'sanders', 'DNC', 'harris', 'iowa', 'nevada', 'new+hampshire', 'south+carolina',
