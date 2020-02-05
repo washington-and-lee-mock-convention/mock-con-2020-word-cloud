@@ -55,8 +55,6 @@ class NewsAPICourier:
                         'date_recorded': datetime.utcnow()
                     }
 
-                self.pair_generator.add_words(words_to_frequency.keys())
-
                 async with db.transaction():
                     word_to_create = WordCloud(**sanitized_word)
                     created_word = await word_to_create.create()

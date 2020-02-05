@@ -1,7 +1,16 @@
 import logging
 from datetime import date
 
+from model import init_db, db
+
 logging.basicConfig(level=logging.INFO)
+
+
+async def setup_db():
+    app = {}
+    await init_db()
+    app['db'] = db
+    return app
 
 
 def define_forbidden_words():
