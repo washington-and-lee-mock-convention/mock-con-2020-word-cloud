@@ -39,13 +39,13 @@ class Generator:
         def compute_sample_frequency(words, repr_set):
             ''' Computes the mean frequency of the word sample '''
             frequencies = [words[word] for word in repr_set]
-            return sum(frequencies)/ len(repr_set)
+            return sum(frequencies)/ len(repr_set) if len(repr_set) > 0 else 0
 
         # set the number of word in set as 30 to maintain distribution
         words_to_freq = await self.get_words(db)
         words_freq = list(words_to_freq.values())
         words_list = list(words_to_freq.keys())
-        average_frequency = sum(words_freq) / len(words_list)
+        average_frequency = sum(words_freq) / len(words_list) if len(words_list) > 0 else 0
         repr_set_words = []
         while True:
             if len(words_list) > 30:
