@@ -9,12 +9,11 @@ from googlenews_courier import GoogleNewsCourier
 from word_pair_generator import Generator
 from model import init_db, db
 from utils import (
-    define_forbidden_words, create_newsapi_url,
-    create_google_news_url, word_seed, setup_db
+    create_newsapi_url, create_google_news_url,
+    word_seed, setup_db
 )
 
 API_PORT = os.environ.get('PORT', 8080)
-FORBIDDEN_WORDS = os.environ.get('FORBIDDEN_WORDS', define_forbidden_words())
 NEWSAPI_KEY = os.environ.get('NEWSAPI_KEY', '7250f963ffc04ab0bf82535a74c91358')
 THRESHOLD = os.environ.get('THRESHOLD', 0)
 MAX_QUERY_SIZE = os.environ.get('MAX_QUERY_SIZE', 3)
@@ -24,7 +23,7 @@ logging.basicConfig(level=logging.INFO)
 loop = asyncio.get_event_loop()
 
 generator = Generator(word_seed(), MAX_QUERY_SIZE)
-query_newsapi = NewsAPICourier(loop, WordCloudGenerator(FORBIDDEN_WORDS, THRESHOLD), generator)
+query_newsapi = NewsAPICourier(loop, WordCloudGenerator(THRESHOLD), generator)
 query_google = GoogleNewsCourier(loop)
 
 
@@ -55,7 +54,6 @@ def setup_app():
 if __name__ == '__main__':
     logging.info('Beginning app startup...')
     logging.info(f'Using API_PORT: {API_PORT}')
-    logging.info(f'Using FORBIDDEN_WORDS: {FORBIDDEN_WORDS}')
 
     logging.info('Setting up RESTapi...')
     app = setup_app()
