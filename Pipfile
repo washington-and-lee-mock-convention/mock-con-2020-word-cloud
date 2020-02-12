@@ -21,6 +21,7 @@ psycopg2-binary = "*"
 bs4 = "*"
 lxml = "*"
 nltk = "*"
+aiohttp-cors = "*"
 
 [requires]
 python_version = "3.7"

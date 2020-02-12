@@ -2,6 +2,7 @@ import os
 import asyncio
 import connexion
 import logging
+import aiohttp_cors
 from connexion.resolver import RestyResolver
 from newsapi_courier import NewsAPICourier
 from cloud_generator import WordCloudGenerator
@@ -48,6 +49,18 @@ async def setup_recurring_gnews_scrape(db):
 def setup_app():
     app = connexion.AioHttpApp(__name__, specification_dir='swagger/')
     app.add_api('api.spec.yaml', resolver=RestyResolver('api'))
+
+    cors = aiohttp_cors.setup(app.app, defaults={
+        "*": aiohttp_cors.ResourceOptions(
+            allow_credentials=True,
+            expose_headers="*",
+            allow_headers="*",
+            allow_methods=["GET", "POST", "PUT"]
+        )
+    })
+    for route in list(app.app.router.routes()):
+        cors.add(route)
+
     return app
 
 
