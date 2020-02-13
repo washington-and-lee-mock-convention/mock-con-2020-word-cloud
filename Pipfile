@@ -6,6 +6,7 @@ verify_ssl = true
 [scripts]
 generate = "python3 app.py"
 create_corpus = "python3 -m scripts.corpus_parser"
+train_sentiment_model = "python3 -m scripts.train_sentiment_model"
 
 [dev-packages]
 
@@ -23,6 +24,7 @@ bs4 = "*"
 lxml = "*"
 nltk = "*"
 aiohttp-cors = "*"
+tensorflow = "*"
 
 [requires]
 python_version = "3.7"
