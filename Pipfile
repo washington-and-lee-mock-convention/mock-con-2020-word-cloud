@@ -25,6 +25,7 @@ lxml = "*"
 nltk = "*"
 aiohttp-cors = "*"
 tensorflow = "*"
+numpy = "*"
 
 [requires]
 python_version = "3.7"

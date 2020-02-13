@@ -2,6 +2,8 @@ import os
 import logging
 import tensorflow as tf
 
+from numpy import genfromtxt
+
 logging.basicConfig(level=logging.INFO)
 CSV_PATH = os.environ.get('CSV_PATH', '.')
 
@@ -39,7 +41,7 @@ class SentimentModel():
 
 
 def import_data_from_csv():
-    pass
+    data = genfromtxt(CSV_PATH + '/corpus.csv', delimiter=',')
 
 
 if __name__ == '__main__':
