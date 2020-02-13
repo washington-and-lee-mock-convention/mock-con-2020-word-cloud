@@ -42,7 +42,7 @@ async def setup_recurring_gnews_scrape(db):
         logging.info(f'Querying Google News API with queries: {queries}')
         for query in queries:
             await query_google(create_google_news_url(query))
-        await asyncio.sleep(3600, loop=loop)
+        await asyncio.sleep(60, loop=loop)
 
 
 def setup_app():

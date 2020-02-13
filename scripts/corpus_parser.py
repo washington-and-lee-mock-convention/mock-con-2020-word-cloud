@@ -37,13 +37,15 @@ class CorpusParser():
 
     def __export(self):
         logging.info(f'Exporting corpus: {self.corpus}')
-        with open(OUTPUT_PATH + 'corpus.csv', 'w', newline='') as csvfile:
+        with open(OUTPUT_PATH + '/corpus.csv', 'w', newline='') as csvfile:
             writer = csv.DictWriter(
                 csvfile, fieldnames=['description', 'pos', 'neutral', 'neg']
             )
             for sentiment in self.corpus:
+                description = sentiment[1].replace(',', '')
+                print(description)
                 writer.writerow({
-                    'description': sentiment[1],
+                    'description': description,
                     'pos': str(sentiment[0]['probability']['pos']),
                     'neutral': str(sentiment[0]['probability']['neutral']),
                     'neg': str(sentiment[0]['probability']['neg'])
@@ -57,9 +59,11 @@ class CorpusParser():
             articles = await conn.all(self.table.query.distinct('url'))
             article_dump = [article.dump() for article in articles]
 
-        self.corpus = [
-            self.__post(article['description']) for article in article_dump
-        ]
+        count = 0
+        for article in article_dump:
+            if count < 100:
+                self.corpus.append(self.__post(article['description']))
+            count += 1
 
         self.__export()
 

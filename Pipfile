@@ -26,6 +26,7 @@ nltk = "*"
 aiohttp-cors = "*"
 tensorflow = "*"
 numpy = "*"
+pandas = "*"
 
 [requires]
 python_version = "3.7"
