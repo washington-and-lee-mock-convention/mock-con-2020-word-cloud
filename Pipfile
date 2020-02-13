@@ -5,6 +5,7 @@ verify_ssl = true
 
 [scripts]
 generate = "python3 app.py"
+create_corpus = "python3 -m scripts.corpus_parser"
 
 [dev-packages]
 
