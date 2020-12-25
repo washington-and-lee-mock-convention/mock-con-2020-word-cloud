@@ -25,4 +25,4 @@ nltk = "*"
 aiohttp-cors = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.9"
